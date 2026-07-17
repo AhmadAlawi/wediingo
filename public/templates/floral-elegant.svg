@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <rect width="400" height="300" fill="#fffaf9"/>
+  <circle cx="60" cy="50" r="30" fill="#f7e7e9"/>
+  <circle cx="340" cy="250" r="40" fill="#f7e7e9"/>
+  <text x="200" y="140" font-family="Georgia, serif" font-size="22" fill="#8a5a5f" text-anchor="middle">Floral Elegant</text>
+  <text x="200" y="170" font-family="Georgia, serif" font-size="14" fill="#b76e79" text-anchor="middle">Anna &amp; James</text>
+</svg>

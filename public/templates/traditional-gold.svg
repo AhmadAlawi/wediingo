@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <rect width="400" height="300" fill="#fdf8f0"/>
+  <rect x="20" y="20" width="360" height="260" fill="none" stroke="#a68a5b" stroke-width="4"/>
+  <rect x="32" y="32" width="336" height="236" fill="none" stroke="#a68a5b" stroke-width="1"/>
+  <text x="200" y="150" font-family="Georgia, serif" font-size="22" fill="#7c6740" text-anchor="middle">Traditional</text>
+  <text x="200" y="178" font-family="Georgia, serif" font-size="16" fill="#a68a5b" text-anchor="middle">Gold</text>
+</svg>

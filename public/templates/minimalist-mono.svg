@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <rect width="400" height="300" fill="#ffffff"/>
+  <rect x="40" y="40" width="320" height="220" fill="none" stroke="#111111" stroke-width="1"/>
+  <text x="200" y="150" font-family="Helvetica, Arial, sans-serif" font-size="20" letter-spacing="2" fill="#111111" text-anchor="middle">MINIMALIST</text>
+  <text x="200" y="175" font-family="Helvetica, Arial, sans-serif" font-size="12" letter-spacing="4" fill="#555555" text-anchor="middle">MONO</text>
+</svg>
