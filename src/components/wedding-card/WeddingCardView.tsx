@@ -5,6 +5,7 @@ import Image from "next/image";
 import { CardData, COLOR_THEMES } from "@/lib/card-schema";
 import { Countdown } from "./Countdown";
 import { RsvpForm } from "./RsvpForm";
+import { FloatingHearts } from "./FloatingHearts";
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -53,13 +54,18 @@ export function WeddingCardView({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
-        className="flex min-h-[70vh] flex-col items-center justify-center px-6 py-24 text-center"
+        className="relative flex min-h-[70vh] flex-col items-center justify-center px-6 py-24 text-center"
         style={{ color: theme.accent }}
       >
+        <FloatingHearts color={theme.primary} />
         <p className="mb-4 text-sm uppercase tracking-[0.2em]">We&apos;re getting married</p>
-        <h1 className="font-serif text-4xl sm:text-6xl" style={{ color: theme.primary }}>
+        <h1 className="flex flex-wrap items-center justify-center font-serif text-4xl sm:text-6xl" style={{ color: theme.primary }}>
           {data.partner1Name || "Partner One"}
-          <span className="mx-3 font-light">&amp;</span>
+          <span className="heart-pulse mx-4 inline-block" style={{ color: theme.primary }}>
+            <svg viewBox="0 0 24 24" fill="currentColor" width="0.6em" height="0.6em">
+              <path d="M12 21s-7.5-4.6-10-9.1C0.3 8.4 2 5 5.5 5 8 5 10 6.6 12 9c2-2.4 4-4 6.5-4C22 5 23.7 8.4 22 11.9 19.5 16.4 12 21 12 21z" />
+            </svg>
+          </span>
           {data.partner2Name || "Partner Two"}
         </h1>
         {dateLabel && <p className="mt-6 text-lg">{dateLabel}</p>}

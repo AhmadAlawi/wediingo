@@ -4,6 +4,7 @@ import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { safeNext } from "@/lib/safe-next";
 
 export default function LoginPage() {
   return (
@@ -16,7 +17,7 @@ export default function LoginPage() {
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const next = searchParams.get("next") ?? "/dashboard";
+  const next = safeNext(searchParams.get("next"));
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -47,7 +48,7 @@ function LoginForm() {
   }
 
   return (
-    <main className="mx-auto flex max-w-sm flex-col gap-6 px-6 py-24">
+    <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center gap-6 px-6 py-24">
       <h1 className="text-2xl font-semibold text-neutral-900">Log in</h1>
 
       <button
