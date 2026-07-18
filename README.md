@@ -11,10 +11,11 @@ Next.js 14 (App Router) + TypeScript + Tailwind + Prisma/PostgreSQL + Supabase (
    - `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` — Stripe Dashboard.
    - `CRON_SECRET` — any random string; Vercel Cron sends it automatically as `Authorization: Bearer <CRON_SECRET>`.
 3. In Supabase Auth settings, enable the Google provider and set the redirect URL to `<site>/auth/callback`.
-4. In Supabase Storage, create a **public** bucket named `card-photos` with a policy allowing `authenticated` users to `insert`/`select` (used for editor photo uploads).
-5. `npm run db:migrate` — applies the Prisma schema.
-6. `npm run db:seed` — seeds the three starter templates (floral, minimalist, traditional; floral is the fully wired one).
-7. `npm run dev`.
+4. `npm run db:migrate` — applies the Prisma schema.
+5. `npm run db:seed` — seeds the three starter templates (floral, minimalist, traditional; floral is the fully wired one).
+6. `npm run dev`.
+
+Editor photo uploads are stored on the app server itself under `public/uploads/<cardId>/` (not Supabase Storage) — no bucket setup needed. That directory persists across deploys but isn't tracked in git; back it up separately if you care about uploaded photos surviving a server rebuild.
 
 For local Stripe webhook testing: `stripe listen --forward-to localhost:3000/api/webhooks/stripe` and use the printed signing secret as `STRIPE_WEBHOOK_SECRET`.
 

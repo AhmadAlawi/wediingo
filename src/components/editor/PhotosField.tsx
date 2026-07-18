@@ -2,9 +2,6 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
-import { createSupabaseBrowserClient } from "@/lib/supabase/client";
-
-const BUCKET = "card-photos";
 
 export function PhotosField({
   cardId,
@@ -23,19 +20,19 @@ export function PhotosField({
     if (!files || files.length === 0) return;
     setUploading(true);
     setError(null);
-    const supabase = createSupabaseBrowserClient();
 
     try {
       const uploaded: string[] = [];
       for (const file of Array.from(files)) {
-        const path = `${cardId}/${Date.now()}-${file.name}`;
-        const { error: uploadError } = await supabase.storage.from(BUCKET).upload(path, file, {
-          cacheControl: "3600",
-          upsert: false,
+        const formData = new FormData();
+        formData.append("file", file);
+        const res = await fetch(`/api/cards/${cardId}/photos`, {
+          method: "POST",
+          body: formData,
         });
-        if (uploadError) throw uploadError;
-        const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
-        uploaded.push(data.publicUrl);
+        const body = await res.json();
+        if (!res.ok) throw new Error(body.error ?? "Upload failed");
+        uploaded.push(body.url);
       }
       onChange([...photos, ...uploaded]);
     } catch (e) {
@@ -46,8 +43,13 @@ export function PhotosField({
     }
   }
 
-  function remove(url: string) {
+  async function remove(url: string) {
     onChange(photos.filter((p) => p !== url));
+    await fetch(`/api/cards/${cardId}/photos`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url }),
+    }).catch(() => {});
   }
 
   return (
