@@ -5,6 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { safeNext } from "@/lib/safe-next";
+import { AuthShell } from "@/components/auth/AuthShell";
+import { GoogleIcon } from "@/components/auth/GoogleIcon";
 
 export default function LoginPage() {
   return (
@@ -23,6 +25,7 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   async function handleEmailLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -40,6 +43,7 @@ function LoginForm() {
   }
 
   async function handleGoogleLogin() {
+    setGoogleLoading(true);
     const supabase = createSupabaseBrowserClient();
     await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -48,55 +52,67 @@ function LoginForm() {
   }
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center gap-6 px-6 py-24">
-      <h1 className="text-2xl font-semibold text-neutral-900">Log in</h1>
-
-      <button
-        onClick={handleGoogleLogin}
-        className="rounded-lg border border-neutral-300 px-4 py-2 text-sm font-medium hover:bg-neutral-50"
-      >
-        Continue with Google
-      </button>
-
-      <div className="flex items-center gap-2 text-xs text-neutral-400">
-        <div className="h-px flex-1 bg-neutral-200" />
-        or
-        <div className="h-px flex-1 bg-neutral-200" />
-      </div>
-
-      <form onSubmit={handleEmailLogin} className="flex flex-col gap-3">
-        <input
-          type="email"
-          required
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="rounded-lg border border-neutral-300 px-3 py-2 text-sm"
-        />
-        <input
-          type="password"
-          required
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="rounded-lg border border-neutral-300 px-3 py-2 text-sm"
-        />
-        {error && <p className="text-sm text-red-600">{error}</p>}
+    <AuthShell eyebrow="Welcome back" title="Log in to Wediingo">
+      <div className="flex flex-col gap-5">
         <button
-          type="submit"
-          disabled={loading}
-          className="rounded-lg bg-neutral-900 px-4 py-2 text-sm font-medium text-white hover:bg-neutral-700 disabled:opacity-50"
+          onClick={handleGoogleLogin}
+          disabled={googleLoading}
+          className="flex items-center justify-center gap-3 rounded-xl border border-neutral-200 bg-white px-4 py-2.5 text-sm font-medium text-neutral-700 shadow-sm transition hover:border-neutral-300 hover:shadow disabled:opacity-50"
         >
-          {loading ? "Logging in..." : "Log in"}
+          <GoogleIcon />
+          {googleLoading ? "Redirecting..." : "Continue with Google"}
         </button>
-      </form>
 
-      <p className="text-sm text-neutral-500">
-        No account?{" "}
-        <Link href={`/signup?next=${encodeURIComponent(next)}`} className="underline">
-          Sign up
-        </Link>
-      </p>
-    </main>
+        <div className="flex items-center gap-3 text-xs text-neutral-400">
+          <div className="h-px flex-1 bg-neutral-200" />
+          or continue with email
+          <div className="h-px flex-1 bg-neutral-200" />
+        </div>
+
+        <form onSubmit={handleEmailLogin} className="flex flex-col gap-3">
+          <label className="flex flex-col gap-1">
+            <span className="text-xs font-medium text-neutral-500">Email</span>
+            <input
+              type="email"
+              required
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="rounded-xl border border-neutral-200 px-3 py-2.5 text-sm text-neutral-900 outline-none transition focus:border-[#b76e79] focus:ring-2 focus:ring-[#b76e79]/20"
+            />
+          </label>
+          <label className="flex flex-col gap-1">
+            <span className="text-xs font-medium text-neutral-500">Password</span>
+            <input
+              type="password"
+              required
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="rounded-xl border border-neutral-200 px-3 py-2.5 text-sm text-neutral-900 outline-none transition focus:border-[#b76e79] focus:ring-2 focus:ring-[#b76e79]/20"
+            />
+          </label>
+
+          {error && (
+            <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>
+          )}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="mt-1 rounded-xl bg-[#b76e79] px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-[#8a5a5f] disabled:opacity-50"
+          >
+            {loading ? "Logging in..." : "Log in"}
+          </button>
+        </form>
+
+        <p className="text-center text-sm text-neutral-500">
+          No account?{" "}
+          <Link href={`/signup?next=${encodeURIComponent(next)}`} className="font-medium text-[#b76e79] hover:underline">
+            Sign up
+          </Link>
+        </p>
+      </div>
+    </AuthShell>
   );
 }
