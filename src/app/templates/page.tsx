@@ -8,19 +8,70 @@ const CATEGORY_LABEL: Record<string, string> = {
   floral: "Floral",
   minimalist: "Minimalist",
   traditional: "Traditional",
+  modern: "Modern",
+  rustic: "Rustic",
+  boho: "Boho",
+  vintage: "Vintage",
+  garden: "Garden",
+  beach: "Beach",
+  classic: "Classic",
 };
 
-export default async function TemplatesPage() {
-  const templates = await prisma.template.findMany({ orderBy: { createdAt: "asc" } });
+export default async function TemplatesPage({
+  searchParams,
+}: {
+  searchParams: { category?: string };
+}) {
+  const [templates, categoryCounts] = await Promise.all([
+    prisma.template.findMany({
+      where: searchParams.category ? { category: searchParams.category } : undefined,
+      orderBy: { createdAt: "asc" },
+    }),
+    prisma.template.groupBy({ by: ["category"], _count: true }),
+  ]);
+
+  const categories = categoryCounts
+    .map((c) => c.category)
+    .sort((a, b) => (CATEGORY_LABEL[a] ?? a).localeCompare(CATEGORY_LABEL[b] ?? b));
+  const total = categoryCounts.reduce((sum, c) => sum + c._count, 0);
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-16">
-      <div className="mb-10">
+      <div className="mb-8">
         <h1 className="text-3xl font-semibold text-neutral-900">Choose a template</h1>
         <p className="mt-2 text-neutral-500">
           Pick a design to start building your invitation. You can change fields, photos, and
           colors after.
         </p>
+      </div>
+
+      <div className="mb-10 flex flex-wrap gap-2">
+        <Link
+          href="/templates"
+          className={`rounded-full px-3 py-1.5 text-sm font-medium transition ${
+            !searchParams.category
+              ? "bg-neutral-900 text-white"
+              : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
+          }`}
+        >
+          All ({total})
+        </Link>
+        {categories.map((category) => {
+          const count = categoryCounts.find((c) => c.category === category)?._count ?? 0;
+          return (
+            <Link
+              key={category}
+              href={`/templates?category=${category}`}
+              className={`rounded-full px-3 py-1.5 text-sm font-medium transition ${
+                searchParams.category === category
+                  ? "bg-neutral-900 text-white"
+                  : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
+              }`}
+            >
+              {CATEGORY_LABEL[category] ?? category} ({count})
+            </Link>
+          );
+        })}
       </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

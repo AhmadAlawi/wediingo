@@ -30,14 +30,17 @@ model User {
 }
 
 model Template {
-  id           String   @id @default(uuid())
-  name         String
-  thumbnailUrl String
-  category     String
-  schema       Json
-  createdAt    DateTime @default(now())
+  id                String   @id @default(uuid())
+  name              String
+  thumbnailUrl      String
+  category          String
+  schema            Json
+  defaultColorTheme String   @default("blush")
+  createdAt         DateTime @default(now())
 
   cards Card[]
+
+  @@index([category])
 }
 
 model Card {

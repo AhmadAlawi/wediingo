@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
-import { DEFAULT_CARD_DATA } from "@/lib/card-schema";
+import { cardDataSchema, COLOR_THEMES, DEFAULT_CARD_DATA } from "@/lib/card-schema";
 import { getSiteOrigin } from "@/lib/site-url";
 
 export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
@@ -17,11 +17,17 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     return NextResponse.redirect(new URL("/templates", origin), 303);
   }
 
+  const colorTheme = template.defaultColorTheme in COLOR_THEMES
+    ? (template.defaultColorTheme as keyof typeof COLOR_THEMES)
+    : DEFAULT_CARD_DATA.colorTheme;
+
+  const initialData = cardDataSchema.parse({ ...DEFAULT_CARD_DATA, colorTheme });
+
   const card = await prisma.card.create({
     data: {
       userId: user.id,
       templateId: template.id,
-      data: DEFAULT_CARD_DATA,
+      data: initialData,
       status: "draft",
     },
   });

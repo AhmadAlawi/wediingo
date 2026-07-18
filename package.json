@@ -9,6 +9,7 @@
     "lint": "next lint",
     "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts",
+    "db:generate-templates": "tsx scripts/generate-templates.ts",
     "db:studio": "prisma studio"
   },
   "prisma": {
