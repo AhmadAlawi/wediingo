@@ -1,11 +1,50 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 import { cardDataSchema } from "@/lib/card-schema";
 import { WeddingCardView } from "@/components/wedding-card/WeddingCardView";
 
 export const revalidate = 0;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { shortId: string };
+}): Promise<Metadata> {
+  const card = await prisma.card.findUnique({ where: { shortId: params.shortId } });
+  if (!card || card.status === "draft") return { title: "Invitation not found" };
+
+  const data = cardDataSchema.parse(card.data);
+  const partner1 = data.partner1Name || "Partner One";
+  const partner2 = data.partner2Name || "Partner Two";
+  const title = `${partner1} & ${partner2}'s Wedding`;
+  const dateLabel = data.weddingDate
+    ? new Date(data.weddingDate).toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : undefined;
+  const description = [dateLabel, data.venueName].filter(Boolean).join(" · ") ||
+    `You're invited to ${partner1} & ${partner2}'s wedding.`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  };
+}
 
 export default async function PublicCardPage({ params }: { params: { shortId: string } }) {
   const card = await prisma.card.findUnique({ where: { shortId: params.shortId } });
