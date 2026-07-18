@@ -32,6 +32,9 @@ export default function OpengraphImage() {
         </div>
         <div
           style={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
             fontSize: 72,
             color: "#171717",
             fontFamily: "Georgia, serif",
@@ -39,7 +42,7 @@ export default function OpengraphImage() {
             maxWidth: 900,
           }}
         >
-          Beautiful digital invitations,{" "}
+          <span>Beautiful digital invitations,&nbsp;</span>
           <span style={{ color: "#b76e79", fontStyle: "italic" }}>live in minutes</span>
         </div>
       </div>
