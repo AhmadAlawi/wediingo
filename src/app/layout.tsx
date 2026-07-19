@@ -1,5 +1,13 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import {
+  Playfair_Display,
+  Source_Serif_4,
+  DM_Sans,
+  Work_Sans,
+  Montserrat,
+  Plus_Jakarta_Sans,
+} from "next/font/google";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -12,6 +20,23 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
+
+// Card theme fonts, sourced from the Stitch flagship design systems (2026-07-19).
+const playfairDisplay = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair-display" });
+const sourceSerif4 = Source_Serif_4({ subsets: ["latin"], variable: "--font-source-serif-4" });
+const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans" });
+const workSans = Work_Sans({ subsets: ["latin"], variable: "--font-work-sans" });
+const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat" });
+const plusJakartaSans = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-plus-jakarta-sans" });
+
+const cardFontVariables = [
+  playfairDisplay.variable,
+  sourceSerif4.variable,
+  dmSans.variable,
+  workSans.variable,
+  montserrat.variable,
+  plusJakartaSans.variable,
+].join(" ");
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://wediingo.awnak.net";
 const SITE_NAME = "Wediingo";
@@ -48,7 +73,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${cardFontVariables} antialiased`}
       >
         {children}
       </body>

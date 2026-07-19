@@ -1,5 +1,20 @@
 import { CardData, COLOR_THEMES } from "@/lib/card-schema";
 
+// Real Google Fonts family names for the standalone download (no Next.js CSS
+// variables available here), matching the choices baked into COLOR_THEMES.
+const BODY_FONT_NAME: Record<CardData["colorTheme"], string> = {
+  blush: "Source Serif 4",
+  sage: "DM Sans",
+  ivory: "Source Serif 4",
+  burgundy: "DM Sans",
+  lavender: "Work Sans",
+  terracotta: "Source Serif 4",
+  navy: "Source Serif 4",
+  forest: "Montserrat",
+  dustyrose: "Plus Jakarta Sans",
+  champagne: "DM Sans",
+};
+
 async function toDataUri(url: string): Promise<string | null> {
   try {
     const res = await fetch(url);
@@ -22,6 +37,8 @@ function escapeHtml(value: string): string {
 
 export async function generateStaticCardHtml(data: CardData): Promise<string> {
   const theme = COLOR_THEMES[data.colorTheme];
+  const bodyFontName = BODY_FONT_NAME[data.colorTheme];
+  const fontsHref = `https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=${encodeURIComponent(bodyFontName)}&display=swap`;
   const partner1 = escapeHtml(data.partner1Name || "Partner One");
   const partner2 = escapeHtml(data.partner2Name || "Partner Two");
   const dateLabel = data.weddingDate
@@ -64,6 +81,9 @@ export async function generateStaticCardHtml(data: CardData): Promise<string> {
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>${partner1} &amp; ${partner2}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="${fontsHref}" rel="stylesheet" />
 <style>
   :root { color-scheme: light; }
   * { box-sizing: border-box; }
@@ -71,7 +91,7 @@ export async function generateStaticCardHtml(data: CardData): Promise<string> {
     margin: 0;
     background: ${theme.bg};
     color: #262626;
-    font-family: Georgia, 'Times New Roman', serif;
+    font-family: '${bodyFontName}', Georgia, serif;
   }
   .hero {
     min-height: 70vh;
@@ -84,12 +104,12 @@ export async function generateStaticCardHtml(data: CardData): Promise<string> {
     color: ${theme.accent};
   }
   .hero .eyebrow { font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem; }
-  .hero h1 { font-size: 3rem; color: ${theme.primary}; margin: 0; font-weight: 400; }
+  .hero h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 3rem; color: ${theme.primary}; margin: 0; font-weight: 600; }
   .hero .amp { margin: 0 0.75rem; font-weight: 300; }
   .hero .date { margin-top: 1.5rem; font-size: 1.1rem; }
   .hero .venue { margin-top: 0.25rem; font-size: 0.9rem; color: #737373; }
   section { max-width: 640px; margin: 0 auto; padding: 3rem 1.5rem; text-align: center; }
-  section h2 { color: ${theme.primary}; font-size: 1.5rem; margin-bottom: 1rem; font-weight: 400; }
+  section h2 { font-family: 'Playfair Display', Georgia, serif; color: ${theme.primary}; font-size: 1.5rem; margin-bottom: 1rem; font-weight: 600; }
   .story { line-height: 1.7; color: #525252; }
   .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; max-width: 900px; margin: 0 auto; }
   .photo { aspect-ratio: 1; overflow: hidden; border-radius: 0.5rem; }

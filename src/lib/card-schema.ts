@@ -38,15 +38,25 @@ export type CardData = z.infer<typeof cardDataSchema>;
 
 export const DEFAULT_CARD_DATA: CardData = cardDataSchema.parse({});
 
-export const COLOR_THEMES: Record<CardData["colorTheme"], { primary: string; secondary: string; accent: string; bg: string }> = {
-  blush: { primary: "#b76e79", secondary: "#f7e7e9", accent: "#8a5a5f", bg: "#fffaf9" },
-  sage: { primary: "#7a8c6e", secondary: "#eef2e9", accent: "#54634a", bg: "#fafcf8" },
-  ivory: { primary: "#a68a5b", secondary: "#f6f1e7", accent: "#7c6740", bg: "#fffdf8" },
-  burgundy: { primary: "#7d2e3b", secondary: "#f2e3e6", accent: "#5a1f29", bg: "#fdf8f8" },
-  lavender: { primary: "#8b7cae", secondary: "#eee9f5", accent: "#5f5280", bg: "#fbfaff" },
-  terracotta: { primary: "#c1694f", secondary: "#f6e6df", accent: "#8f4831", bg: "#fffaf7" },
-  navy: { primary: "#3d5170", secondary: "#e6ebf2", accent: "#26344a", bg: "#f9fafc" },
-  forest: { primary: "#3f5b45", secondary: "#e6ede7", accent: "#293e2e", bg: "#f8fbf8" },
-  dustyrose: { primary: "#c48a94", secondary: "#f8ecee", accent: "#93606b", bg: "#fffbfb" },
-  champagne: { primary: "#b9975b", secondary: "#f7f0e2", accent: "#8a6f3d", bg: "#fffdf6" },
+/**
+ * Colors and body fonts derived from real Stitch-generated design systems (one per
+ * theme, flagship generation 2026-07-19). Headline font (Playfair Display) is shared
+ * site-wide below since every one of the 10 generations independently chose it.
+ */
+export const COLOR_THEMES: Record<
+  CardData["colorTheme"],
+  { primary: string; secondary: string; accent: string; bg: string; font: string }
+> = {
+  blush: { primary: "#745853", secondary: "#fff0f4", accent: "#725665", bg: "#fff8f8", font: "var(--font-source-serif-4), serif" },
+  sage: { primary: "#56642b", secondary: "#f8f6c9", accent: "#635f40", bg: "#fefccf", font: "var(--font-dm-sans), sans-serif" },
+  ivory: { primary: "#725b2b", secondary: "#f6f3f2", accent: "#5e5f54", bg: "#fbf9f8", font: "var(--font-source-serif-4), serif" },
+  burgundy: { primary: "#570013", secondary: "#fbf2ed", accent: "#6a5b56", bg: "#fff8f5", font: "var(--font-dm-sans), sans-serif" },
+  lavender: { primary: "#341547", secondary: "#f4f3f1", accent: "#6c538b", bg: "#faf9f6", font: "var(--font-work-sans), sans-serif" },
+  terracotta: { primary: "#964325", secondary: "#f6f3ed", accent: "#974635", bg: "#fcf9f3", font: "var(--font-source-serif-4), serif" },
+  navy: { primary: "#051125", secondary: "#faf4df", accent: "#47607e", bg: "#fff9e8", font: "var(--font-source-serif-4), serif" },
+  forest: { primary: "#061b0e", secondary: "#f5f3ee", accent: "#516349", bg: "#fbf9f4", font: "var(--font-montserrat), sans-serif" },
+  dustyrose: { primary: "#7b5455", secondary: "#fbf2f1", accent: "#685c50", bg: "#fff8f7", font: "var(--font-plus-jakarta-sans), sans-serif" },
+  champagne: { primary: "#735c00", secondary: "#f6f3f2", accent: "#685d4a", bg: "#fbf9f8", font: "var(--font-dm-sans), sans-serif" },
 };
+
+export const HEADLINE_FONT = "var(--font-playfair-display), Georgia, serif";

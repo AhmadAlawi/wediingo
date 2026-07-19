@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { FloatingHearts } from "@/components/wedding-card/FloatingHearts";
+import { HEADLINE_FONT } from "@/lib/card-schema";
 
 const fadeUp = (delay: number) => ({
   initial: { opacity: 0, y: 20 },
@@ -20,7 +21,8 @@ export default function Home() {
       </motion.p>
       <motion.h1
         {...fadeUp(0.15)}
-        className="max-w-2xl font-serif text-4xl text-neutral-900 sm:text-5xl"
+        className="max-w-2xl text-4xl text-neutral-900 sm:text-5xl"
+        style={{ fontFamily: HEADLINE_FONT }}
       >
         Beautiful digital invitations,{" "}
         <span className="italic text-[#b76e79]">live in minutes</span>

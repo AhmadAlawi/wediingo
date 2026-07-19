@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { CardData, COLOR_THEMES } from "@/lib/card-schema";
+import { CardData, COLOR_THEMES, HEADLINE_FONT } from "@/lib/card-schema";
 import { Countdown } from "./Countdown";
 import { RsvpForm } from "./RsvpForm";
 import { FloatingHearts } from "./FloatingHearts";
@@ -36,7 +36,7 @@ export function WeddingCardView({
     : "";
 
   return (
-    <div className="relative overflow-hidden" style={{ backgroundColor: theme.bg }}>
+    <div className="relative overflow-hidden" style={{ backgroundColor: theme.bg, fontFamily: theme.font }}>
       {watermark && (
         <div className="pointer-events-none absolute inset-0 z-50 flex flex-wrap content-start items-center justify-center gap-24 overflow-hidden py-24">
           {Array.from({ length: 24 }).map((_, i) => (
@@ -59,7 +59,7 @@ export function WeddingCardView({
       >
         <FloatingHearts color={theme.primary} />
         <p className="mb-4 text-sm uppercase tracking-[0.2em]">We&apos;re getting married</p>
-        <h1 className="flex flex-wrap items-center justify-center font-serif text-4xl sm:text-6xl" style={{ color: theme.primary }}>
+        <h1 className="flex flex-wrap items-center justify-center text-4xl sm:text-6xl" style={{ color: theme.primary, fontFamily: HEADLINE_FONT }}>
           {data.partner1Name || "Partner One"}
           <span className="heart-pulse mx-4 inline-block" style={{ color: theme.primary }}>
             <svg viewBox="0 0 24 24" fill="currentColor" width="0.6em" height="0.6em">
@@ -80,7 +80,7 @@ export function WeddingCardView({
 
       {data.story && (
         <motion.section {...fadeUp} className="mx-auto max-w-2xl px-6 py-16 text-center">
-          <h2 className="mb-4 font-serif text-2xl" style={{ color: theme.primary }}>
+          <h2 className="mb-4 text-2xl" style={{ color: theme.primary, fontFamily: HEADLINE_FONT }}>
             Our story
           </h2>
           <p className="whitespace-pre-line leading-relaxed text-neutral-600">{data.story}</p>
@@ -101,7 +101,7 @@ export function WeddingCardView({
 
       {data.schedule.length > 0 && (
         <motion.section {...fadeUp} className="mx-auto max-w-xl px-6 py-16">
-          <h2 className="mb-8 text-center font-serif text-2xl" style={{ color: theme.primary }}>
+          <h2 className="mb-8 text-center text-2xl" style={{ color: theme.primary, fontFamily: HEADLINE_FONT }}>
             Schedule
           </h2>
           <div className="flex flex-col gap-6">
@@ -128,7 +128,7 @@ export function WeddingCardView({
           className="px-6 py-16"
           style={{ backgroundColor: theme.secondary }}
         >
-          <h2 className="mb-8 text-center font-serif text-2xl" style={{ color: theme.primary }}>
+          <h2 className="mb-8 text-center text-2xl" style={{ color: theme.primary, fontFamily: HEADLINE_FONT }}>
             RSVP
           </h2>
           <RsvpForm cardId={cardId} accent={theme.primary} interactive={interactiveRsvp} />
