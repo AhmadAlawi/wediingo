@@ -1,9 +1,9 @@
 /** Hosting duration (days) -> price in whole USD. Edit to adjust pricing. */
 export const PRICING_TABLE: Record<string, number> = {
   "7": 5,
-  "14": 8,
-  "21": 11,
-  "30": 15,
+  "14": 6,
+  "21": 8,
+  "30": 10,
 };
 
 export const DURATION_OPTIONS = Object.keys(PRICING_TABLE)
