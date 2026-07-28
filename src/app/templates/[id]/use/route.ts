@@ -4,6 +4,11 @@ import { getCurrentUser } from "@/lib/auth";
 import { cardDataSchema, COLOR_THEMES, DEFAULT_CARD_DATA } from "@/lib/card-schema";
 import { getSiteOrigin } from "@/lib/site-url";
 
+/** GET handles the post-login redirect back here (from /auth/callback's ?next=), which arrives as a plain navigation, not a form POST. */
+export async function GET(request: NextRequest, ctx: { params: { id: string } }) {
+  return POST(request, ctx);
+}
+
 export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
   const origin = getSiteOrigin(request);
   const user = await getCurrentUser();
