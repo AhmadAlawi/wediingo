@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 import { stripe } from "@/lib/stripe";
 import { DOWNLOAD_ADDON_PRICE, DURATION_OPTIONS, getDurationPrice } from "@/lib/pricing";
+import { getSiteOrigin } from "@/lib/site-url";
 
 const checkoutInputSchema = z.object({
   cardId: z.string().min(1),
@@ -26,7 +27,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Card not found" }, { status: 404 });
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? request.nextUrl.origin;
+  const siteUrl = getSiteOrigin(request);
   const durationPriceCents = getDurationPrice(durationDays) * 100;
   const addonCents = downloadAddon ? DOWNLOAD_ADDON_PRICE * 100 : 0;
 
