@@ -7,7 +7,8 @@ export type FieldType =
   | "color-theme"
   | "toggle"
   | "photos"
-  | "schedule";
+  | "schedule"
+  | "video";
 
 export interface FieldDef {
   key: string;
@@ -28,4 +29,11 @@ export const FLORAL_TEMPLATE_SCHEMA: FieldDef[] = [
   { key: "colorTheme", label: "Color theme", type: "color-theme", section: "design" },
   { key: "rsvpEnabled", label: "Enable RSVP", type: "toggle", section: "options" },
   { key: "countdownEnabled", label: "Enable countdown", type: "toggle", section: "options" },
+];
+
+/** Envelope-opening template: same fields as the floral schema, plus an optional video. */
+export const ENVELOPE_TEMPLATE_SCHEMA: FieldDef[] = [
+  ...FLORAL_TEMPLATE_SCHEMA.slice(0, 8),
+  { key: "videoUrl", label: "Video (YouTube/Vimeo/MP4 link)", type: "video", section: "media" },
+  ...FLORAL_TEMPLATE_SCHEMA.slice(8),
 ];

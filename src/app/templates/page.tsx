@@ -15,6 +15,7 @@ const CATEGORY_LABEL: Record<string, string> = {
   garden: "Garden",
   beach: "Beach",
   classic: "Classic",
+  envelope: "Envelope",
 };
 
 export default async function TemplatesPage({

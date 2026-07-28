@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
 import { cardDataSchema } from "@/lib/card-schema";
 import { WeddingCardView } from "@/components/wedding-card/WeddingCardView";
+import { EnvelopeCardView } from "@/components/wedding-card/EnvelopeCardView";
 
 export const revalidate = 0;
 
@@ -47,7 +48,10 @@ export async function generateMetadata({
 }
 
 export default async function PublicCardPage({ params }: { params: { shortId: string } }) {
-  const card = await prisma.card.findUnique({ where: { shortId: params.shortId } });
+  const card = await prisma.card.findUnique({
+    where: { shortId: params.shortId },
+    include: { template: true },
+  });
   if (!card || card.status === "draft") notFound();
 
   const user = await getCurrentUser();
@@ -82,7 +86,11 @@ export default async function PublicCardPage({ params }: { params: { shortId: st
           Download
         </a>
       )}
-      <WeddingCardView data={data} cardId={card.id} interactiveRsvp />
+      {card.template.layout === "envelope" ? (
+        <EnvelopeCardView data={data} cardId={card.id} interactiveRsvp />
+      ) : (
+        <WeddingCardView data={data} cardId={card.id} interactiveRsvp />
+      )}
     </>
   );
 }

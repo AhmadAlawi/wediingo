@@ -31,6 +31,7 @@ export const cardDataSchema = z.object({
     .default("blush"),
   rsvpEnabled: z.boolean().default(true),
   countdownEnabled: z.boolean().default(true),
+  videoUrl: z.string().default(""),
 });
 
 export type ScheduleItem = z.infer<typeof scheduleItemSchema>;

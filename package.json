@@ -10,6 +10,7 @@
     "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts",
     "db:generate-templates": "tsx scripts/generate-templates.ts",
+    "db:add-envelope-template": "tsx scripts/add-envelope-template.ts",
     "db:studio": "prisma studio"
   },
   "prisma": {

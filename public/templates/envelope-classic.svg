@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <rect width="400" height="300" fill="#fff8f8"/>
+  <rect x="20" y="20" width="176" height="260" fill="#745853"/>
+  <rect x="204" y="20" width="176" height="260" fill="#745853"/>
+  <circle cx="200" cy="150" r="30" fill="#725665"/>
+  <path d="M200 168s-14-8.6-18.7-17C179 145.5 180.3 140 184.3 140c2.6 0 4.9 1.5 5.7 3.7 0.8-2.2 3.1-3.7 5.7-3.7 4 0 5.3 5.5 3 11-4.7 8.4-18.7 17-18.7 17z" fill="#fff8f8"/>
+  <rect x="320" y="48" width="36" height="44" rx="2" fill="#fff0f4" stroke="#fff8f8" stroke-width="2" stroke-dasharray="3 3"/>
+  <text x="200" y="255" font-family="Georgia, serif" font-size="15" fill="#fff0f4" text-anchor="middle" letter-spacing="1">Sealed With Love</text>
+</svg>

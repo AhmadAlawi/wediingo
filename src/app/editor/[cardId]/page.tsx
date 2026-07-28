@@ -24,6 +24,12 @@ export default async function EditorPage({ params }: { params: { cardId: string 
   const fields = card.template.schema as unknown as FieldDef[];
 
   return (
-    <CardEditor cardId={card.id} initialData={data} fields={fields} status={card.status} />
+    <CardEditor
+      cardId={card.id}
+      initialData={data}
+      fields={fields}
+      status={card.status}
+      layout={card.template.layout}
+    />
   );
 }

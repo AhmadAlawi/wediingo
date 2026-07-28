@@ -36,6 +36,7 @@ model Template {
   category          String
   schema            Json
   defaultColorTheme String   @default("blush")
+  layout            String   @default("classic")
   createdAt         DateTime @default(now())
 
   cards Card[]

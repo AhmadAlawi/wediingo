@@ -5,6 +5,7 @@ import Link from "next/link";
 import { CardData, cardDataSchema } from "@/lib/card-schema";
 import { FieldDef } from "@/lib/template-field-schema";
 import { WeddingCardView } from "@/components/wedding-card/WeddingCardView";
+import { EnvelopeCardView } from "@/components/wedding-card/EnvelopeCardView";
 import {
   ColorThemeField,
   DateField,
@@ -14,6 +15,7 @@ import {
   ToggleField,
 } from "@/components/editor/fields";
 import { PhotosField } from "@/components/editor/PhotosField";
+import { VideoUrlField } from "@/components/editor/VideoUrlField";
 
 const SECTIONS: Array<{ key: FieldDef["section"]; label: string }> = [
   { key: "couple", label: "Couple" },
@@ -29,11 +31,13 @@ export function CardEditor({
   initialData,
   fields,
   status,
+  layout = "classic",
 }: {
   cardId: string;
   initialData: CardData;
   fields: FieldDef[];
   status: string;
+  layout?: string;
 }) {
   const [data, setData] = useState<CardData>(initialData);
   const [activeSection, setActiveSection] = useState<FieldDef["section"]>("couple");
@@ -182,6 +186,15 @@ export function CardEditor({
                       onChange={(v) => update("photos", v)}
                     />
                   );
+                case "video":
+                  return (
+                    <VideoUrlField
+                      key={field.key}
+                      label={field.label}
+                      value={data.videoUrl}
+                      onChange={(v) => update("videoUrl", v)}
+                    />
+                  );
                 default:
                   return null;
               }
@@ -191,7 +204,11 @@ export function CardEditor({
 
         <section className="flex-1 overflow-y-auto bg-neutral-50">
           <div className="mx-auto max-w-2xl scale-[0.95] origin-top">
-            <WeddingCardView data={data} watermark interactiveRsvp={false} />
+            {layout === "envelope" ? (
+              <EnvelopeCardView data={data} watermark interactiveRsvp={false} skipIntro />
+            ) : (
+              <WeddingCardView data={data} watermark interactiveRsvp={false} />
+            )}
           </div>
         </section>
       </div>
